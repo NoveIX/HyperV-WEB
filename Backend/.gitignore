@@ -1,0 +1,58 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# VS Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# Visual Studio files
+.vs/
+
+# Logs
+*.log
+
+# Secrets
+secrets.json
+
+# Environment files
+.env
+
+# dotnet-specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Optional publish output
+publish/
+*.db
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuspec
+
+# Others
+TestResults/
+*.tgz
+*.tmp
