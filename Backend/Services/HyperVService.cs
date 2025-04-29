@@ -8,18 +8,41 @@ namespace Backend.Services
     {
         public List<VMInfo> GetVMs()
         {
-            var psi = new ProcessStartInfo()
+            try
             {
-                FileName = "powershell",
-                Arguments = "Get-VM | Select-Object Name, State | ConvertTo-Json",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            using var process = Process.Start(psi);
-            string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            return JsonSerializer.Deserialize<List<VMInfo>>(output) ?? new List<VMInfo>();
+                var psi = new ProcessStartInfo()
+                {
+                    FileName = "powershell",
+                    Arguments = "Get-VM | Select-Object Name, State | ConvertTo-Json",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using var process = Process.Start(psi);
+                if (process == null)
+                    return new List<VMInfo>();
+                    
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+                
+                if (string.IsNullOrWhiteSpace(output))
+                    return new List<VMInfo>();
+                    
+                // Gestisce sia il caso di un singolo oggetto che di un array
+                if (output.TrimStart().StartsWith("{"))
+                {
+                    // È un singolo oggetto
+                    var singleVM = JsonSerializer.Deserialize<VMInfo>(output);
+                    return singleVM != null ? new List<VMInfo> { singleVM } : new List<VMInfo>();
+                }
+                
+                return JsonSerializer.Deserialize<List<VMInfo>>(output) ?? new List<VMInfo>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Errore durante il recupero delle VM: {ex.Message}");
+                return new List<VMInfo>();
+            }
         }
 
         public string StartVM(string name)
