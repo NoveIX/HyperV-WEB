@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Backend.Services;
 using System;
+using System.IO;
 
 namespace Backend.Controllers
 {
@@ -95,29 +96,67 @@ namespace Backend.Controllers
         {
             try
             {
+                Console.WriteLine("Tentativo di arrestare i servizi...");
+                
+                // Ottieni il percorso corrente dell'applicazione
+                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string batchFilePath = Path.Combine(currentDirectory, "..\\stop_services.bat");
+                
+                Console.WriteLine($"Percorso del file batch: {batchFilePath}");
+                
+                if (!System.IO.File.Exists(batchFilePath))
+                {
+                    string errorMsg = $"File batch non trovato: {batchFilePath}";
+                    Console.WriteLine(errorMsg);
+                    return StatusCode(500, new { error = errorMsg });
+                }
+                
                 var psi = new ProcessStartInfo()
                 {
                     FileName = "cmd.exe",
-                    Arguments = "/c ..\\stop_services.bat",
+                    Arguments = $"/c \"{batchFilePath}\"",
                     RedirectStandardOutput = true,
+                    RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
+                    WorkingDirectory = currentDirectory
                 };
+                
+                Console.WriteLine($"Esecuzione comando: {psi.FileName} {psi.Arguments}");
                 using var process = Process.Start(psi);
                 
                 if (process == null)
-                    return StatusCode(500, new { error = "Impossibile avviare il processo di arresto." });
+                {
+                    string errorMsg = "Impossibile avviare il processo di arresto.";
+                    Console.WriteLine(errorMsg);
+                    return StatusCode(500, new { error = errorMsg });
+                }
                     
                 string output = process.StandardOutput.ReadToEnd();
+                string error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
                 
+                Console.WriteLine($"Exit code: {process.ExitCode}");
+                Console.WriteLine($"Output: {output}");
+                
+                if (!string.IsNullOrEmpty(error))
+                {
+                    Console.WriteLine($"Errore: {error}");
+                }
+                
                 if (process.ExitCode != 0)
-                    return StatusCode(500, new { error = "Errore durante l'arresto dei servizi.", details = output });
+                {
+                    string errorMsg = "Errore durante l'arresto dei servizi.";
+                    Console.WriteLine($"{errorMsg} Exit code: {process.ExitCode}");
+                    return StatusCode(500, new { error = errorMsg, details = output, errorDetails = error });
+                }
                     
                 return Ok(new { message = "Servizi in fase di arresto", details = output });
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Errore durante l'arresto dei servizi: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
                 return StatusCode(500, new { error = $"Errore durante l'arresto dei servizi: {ex.Message}" });
             }
         }
