@@ -1,6 +1,6 @@
 # HyperV-WEB
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)](https://dotnet.microsoft.com/download/dotnet/8.0) [![React](https://img.shields.io/badge/React-18-61DAFB)](https://reactjs.org/) [![Material UI](https://img.shields.io/badge/Material--UI-5-0081CB)](https://mui.com/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0) [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge)](https://dotnet.microsoft.com/download/dotnet/8.0) [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge)](https://reactjs.org/) [![Material UI](https://img.shields.io/badge/Material--UI-5-0081CB?style=for-the-badge)](https://mui.com/)
 
 A modern web-based interface for managing Hyper-V virtual machines. This application provides a user-friendly way to monitor and control your Hyper-V environment through a responsive web interface.
 
