@@ -1,88 +1,121 @@
-# HyperV-WIB
+# HyperV-WEB
 
-## Overview
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)](https://dotnet.microsoft.com/download/dotnet/8.0) [![React](https://img.shields.io/badge/React-18-61DAFB)](https://reactjs.org/) [![Material UI](https://img.shields.io/badge/Material--UI-5-0081CB)](https://mui.com/)
 
-HyperV-WIB is a web application designed to manage Hyper-V virtual machines. It features a .NET Core backend API and a React frontend for user interaction.
+A modern web-based interface for managing Hyper-V virtual machines. This application provides a user-friendly way to monitor and control your Hyper-V environment through a responsive web interface.
 
-## Project Structure
+## 🏗️ Architecture
 
-The project is organized into the following main directories:
+HyperV-WEB follows a client-server architecture:
 
--   `/Backend`: Contains the ASP.NET Core web API that interacts with Hyper-V.
--   `/Frontend`: Contains the React single-page application for the user interface.
--   `start_services.bat`: A batch script to start both backend and frontend services.
--   `stop_services.bat`: A batch script to stop both backend and frontend services.
+- **Backend**: A .NET 8 API written in C# that interfaces with Hyper-V through PowerShell commands
+- **Frontend**: A React-based single-page application with Material UI for a modern, responsive interface
 
-## Prerequisites
+The application uses a RESTful API approach for communication between the frontend and backend components.
 
-Before you begin, ensure you have the following software installed:
+## ✨ Main Features
 
--   [.NET SDK](https://dotnet.microsoft.com/download) (version specified in `Backend.csproj` or latest stable)
--   [Node.js and npm](https://nodejs.org/) (latest LTS version recommended)
--   [Yarn](https://yarnpkg.com/) (optional, if you prefer it over npm)
--   Hyper-V enabled on your Windows machine.
+- **VM Management**:
+  - View all virtual machines with their current status
+  - Start and stop virtual machines
+  - Delete virtual machines
+- **Real-time Updates**: Automatic refresh of VM status every 30 seconds
+- **Modern UI**: Clean, responsive interface built with Material UI
+- **System Shutdown**: Safely shut down the application services
 
-## Getting Started
+## 🔧 System Requirements
 
-### Backend Setup
+### Prerequisites
 
-1.  Navigate to the `Backend` directory:
-    ```bash
-    cd Backend
-    ```
-2.  Restore .NET dependencies:
-    ```bash
-    dotnet restore
-    ```
-3.  Run the backend application:
-    ```bash
-    dotnet run
-    ```
-    The API will typically be available at `https://localhost:5001` or `http://localhost:5000` (check `Properties/launchSettings.json` for exact URLs).
+- Windows operating system with Hyper-V enabled
+- .NET 8.0 SDK or Runtime
+- Node.js (v14 or higher) and npm
+- PowerShell with execution permissions for Hyper-V commands
+- Administrator privileges (for Hyper-V operations)
 
-### Frontend Setup
+## 📦 Installation
 
-1.  Navigate to the `Frontend` directory:
-    ```bash
-    cd Frontend
-    ```
-2.  Install Node.js dependencies:
-    ```bash
-    npm install
-    # or if you use yarn
-    # yarn install
-    ```
-3.  Start the frontend development server:
-    ```bash
-    npm start
-    # or if you use yarn
-    # yarn start
-    ```
-    The frontend application will typically be available at `http://localhost:3000`.
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/HyperV-WEB.git
+   cd HyperV-WEB
+   ```
 
-### Running the Application with Scripts
+2. Restore dependencies using the provided script:
+   ```
+   restore_dependencies.bat
+   ```
+   This script will install all required packages for both the frontend and backend components.
 
-Alternatively, you can use the provided batch scripts in the root directory to manage the services:
+## 🚀 Usage
 
--   To start both backend and frontend services:
-    ```bash
-    start_services.bat
-    ```
--   To stop both backend and frontend services:
-    ```bash
-    stop_services.bat
-    ```
+### Starting the Application
 
-## Technologies Used
+Run the provided batch file to start both the backend and frontend services:
 
--   **Backend**: ASP.NET Core, C#
--   **Frontend**: React, JavaScript, HTML, CSS
--   **Hyper-V Management**: PowerShell cmdlets via .NET
+```
+start_services.bat
+```
 
-## Contributing
+This will:
+- Start the .NET backend API on http://localhost:5062
+- Launch the React frontend on http://localhost:3000
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue.
+### Accessing the Interface
 
-## License
+Open your browser and navigate to:
+```
+http://localhost:3000
+```
 
-This project is currently unlicensed. Please add a license file if you intend to distribute it.
+### Stopping the Application
+
+To stop all services, use the provided batch file:
+
+```
+stop_services.bat
+```
+
+## 📁 Project Structure
+
+```
+HyperV-WEB/
+├── Backend/                  # .NET 8 API
+│   ├── Controllers/          # API endpoints
+│   │   └── HyperVController.cs
+│   ├── Services/             # Business logic
+│   │   └── HyperVService.cs
+│   ├── Properties/           # .NET configuration
+│   ├── appsettings.json      # Application settings
+│   └── Backend.csproj        # Project file
+├── Frontend/                 # React application
+│   ├── public/               # Static assets
+│   ├── src/                  # Source code
+│   │   ├── components/       # React components
+│   │   │   ├── VMList.js     # VM management interface
+│   │   │   └── ShutdownButton.js
+│   │   ├── App.js            # Main application component
+│   │   └── index.js          # Entry point
+│   └── package.json          # NPM dependencies
+├── restore_dependencies.bat  # Dependency installation script
+├── start_services.bat        # Application startup script
+└── stop_services.bat         # Application shutdown script
+```
+
+### Key Configuration Files
+
+- **Backend/appsettings.json**: Contains backend configuration settings
+- **Frontend/package.json**: Lists frontend dependencies and scripts
+- **Backend.csproj**: Defines .NET project settings and dependencies
+
+## 📄 License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+Developed with ❤️ for Hyper-V administrators
